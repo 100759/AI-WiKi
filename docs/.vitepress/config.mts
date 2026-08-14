@@ -1,4 +1,27 @@
 import { defineConfig } from 'vitepress'
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import fs from 'node:fs'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+// 自动扫描 guide 目录生成侧边栏，新增文章无需手动配置
+function getGuideSidebar() {
+  const guideDir = path.join(__dirname, '../guide')
+  if (!fs.existsSync(guideDir)) return []
+  return fs
+    .readdirSync(guideDir)
+    .filter((f) => f.endsWith('.md') && !f.startsWith('index'))
+    .sort()
+    .map((f) => {
+      const slug = f.replace(/\.md$/, '')
+      const raw = fs.readFileSync(path.join(guideDir, f), 'utf-8')
+      const title = raw.match(/^---\s*\n[\s\S]*?\n---/) // frontmatter
+        ? raw.match(/^title:\s*(.+)$/m)?.[1]?.trim()
+        : undefined
+      return { text: title || slug, link: `/guide/${slug}` }
+    })
+}
 
 export default defineConfig({
   title: '知识库',
@@ -16,11 +39,8 @@ export default defineConfig({
     sidebar: {
       '/guide/': [
         {
-          text: '入门',
-          items: [
-            { text: '快速开始', link: '/guide/getting-started' },
-            { text: 'Markdown 扩展', link: '/guide/markdown' }
-          ]
+          text: '指南',
+          items: getGuideSidebar()
         }
       ]
     },
