@@ -81,3 +81,16 @@ npx wrangler pages deploy docs/.vitepress/dist --project-name knowledge-base
 2. GitHub 授权后回调 `/api/callback` → 用 code 换取 access_token
 3. 通过 `postMessage` 将 token 传回 CMS 窗口
 4. CMS 用 token 直接调用 GitHub API 读写内容
+
+## 作为模板使用
+
+本仓库已标记为 **GitHub 模板仓库**，创建新知识库时：
+
+1. 打开仓库页面 → 点 **Use this template**（绿色按钮）→ 填新仓库名即可复制
+2. 新仓库本地克隆后需改 4 处，全部替换为新站点域名和新仓库路径：
+   - `docs/public/admin/config.yml`：`repo` → 新仓库路径；`base_url` / `site_url` → 新域名
+   - GitHub OAuth App：Homepage URL 与 **Authorization callback URL**（必须为 `https://<新域名>/api/callback`，否则登录报 redirect_uri 不匹配）
+   - Cloudflare Pages 环境变量：`GITHUB_CLIENT_ID`、`GITHUB_CLIENT_SECRET`
+3. `pnpm install && pnpm build`，然后 `wrangler pages deploy docs/.vitepress/dist --project-name <项目名>`
+
+> 注意：OAuth App 的 callback URL 必须精确等于 `/api/auth` 生成的 `redirect_uri`（即 `https://<域名>/api/callback`），不能只填首页地址。
