@@ -5,9 +5,9 @@
 
 backend:
   name: github
-  repo: <GITHUB_USER>/<REPO_NAME>
+  repo: 100759/AI-WiKi
   branch: main
-  base_url: <YOUR_SITE_URL>
+  base_url: https://ai-wiki-cc2.pages.dev
   auth_endpoint: /api/auth
 
 # 媒体文件存储位置
@@ -15,7 +15,7 @@ media_folder: docs/public/images
 public_folder: /images
 
 # 站点地址（用于生成预览链接等）
-site_url: <YOUR_SITE_URL>
+site_url: https://ai-wiki-cc2.pages.dev
 
 # 发布模式：可直接发布，也可启用 editorial_workflow 走审稿流程
 # publish_mode: editorial_workflow
