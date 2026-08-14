@@ -1,0 +1,53 @@
+# Decap CMS 配置
+# 后端使用 github + Cloudflare Pages Functions OAuth 代理
+# 部署后请将 <YOUR_SITE_URL> 替换为实际 Cloudflare Pages 域名
+# 请将 <GITHUB_USER>/<REPO_NAME> 替换为实际仓库路径
+
+backend:
+  name: github
+  repo: <GITHUB_USER>/<REPO_NAME>
+  branch: main
+  base_url: <YOUR_SITE_URL>
+  auth_endpoint: /api/auth
+
+# 媒体文件存储位置
+media_folder: docs/public/images
+public_folder: /images
+
+# 站点地址（用于生成预览链接等）
+site_url: <YOUR_SITE_URL>
+
+# 发布模式：可直接发布，也可启用 editorial_workflow 走审稿流程
+# publish_mode: editorial_workflow
+
+# 内容集合
+collections:
+  - name: "guide"
+    label: "指南文章"
+    folder: "docs/guide"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    editor:
+      preview: false
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "描述", name: "description", widget: "string", required: false }
+      - { label: "发布日期", name: "date", widget: "datetime" }
+      - { label: "正文", name: "body", widget: "markdown" }
+
+  - name: "pages"
+    label: "独立页面"
+    folder: "docs/pages"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    editor:
+      preview: false
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "描述", name: "description", widget: "string", required: false }
+      - { label: "发布日期", name: "date", widget: "datetime" }
+      - { label: "正文", name: "body", widget: "markdown" }

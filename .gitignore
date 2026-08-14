@@ -1,0 +1,9 @@
+node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+.wrangler/
+.dev.vars
+*.log
+.DS_Store
+AI-WiKi.tar.gz
+部署指南.md
